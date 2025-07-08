@@ -46,7 +46,7 @@ export const PageUser = () => {
   }, []);
 
   const onClickHello = useCallback((user: IUsers) => {
-    alert(`Hello ${user.firstName} ${user.lastName}`);
+    alert(`Hello ${user.name?.split(" ")[0]} ${user.name?.split(" ")[1]}`);
   }, []);
 
   const handleClose = useCallback(() => setVisible(false), []);
@@ -54,16 +54,34 @@ export const PageUser = () => {
   const handleOpenSideBar = useCallback(() => setsideBarOpen(true), []);
   const handleCloseSideBar = useCallback(() => setsideBarOpen(false), []);
 
-  const onUpdateUser = useCallback((updatedUser: IUsers) => {
-    const newUserValue = userList.map((user) => {
-      if (user.id === updatedUser.id) {
-        return updatedUser;
-      } else {
-        return user;
-      }
-    });
+  //   const onUpdateUser = useCallback((updatedUser: IUsers) => {
+  //     const newUserValue = userList.map((user) => {
+  //       if (user.id === updatedUser.id) {
+  //         return updatedUser;
+  //       } else {
+  //         return user;
+  //       }
+  //     });
 
-    setUserList(newUserValue);
+  //     setUserList(newUserValue);
+  //   }, []);
+
+  const onUpdateUser = useCallback((updatedUser: IUsers) => {
+    console.log(updatedUser);
+    console.log("Update Users");
+    fetch(`https://jsonplaceholder.typicode.com/users/${updatedUser.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        id: updatedUser.id,
+        userId: updatedUser.id,
+        name: updatedUser.firstName + " " + updatedUser.lastName,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
   }, []);
 
   useEffect(() => {
@@ -149,10 +167,10 @@ export const PageUser = () => {
                     <Tooltip title={user.firstName} placement="left">
                       <Avatar alt={user.firstName} src={user.image} />
                     </Tooltip>
-                    {user.name.split(` `)[0]}
+                    {user.name?.split(` `)[0]}
                   </Box>
                 </TableCell>
-                <TableCell align="left">{user.name.split(` `)[1]}</TableCell>
+                <TableCell align="left">{user.name?.split(` `)[1]}</TableCell>
                 <TableCell align="left">{user.age}</TableCell>
                 <TableCell align="center">
                   <Tooltip title="View">
