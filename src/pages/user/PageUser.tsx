@@ -16,6 +16,7 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InfoIcon from "@mui/icons-material/Info";
 import { users, type IUsers } from "../../constans/users";
 import { ModalUser } from "../../components/ModalUser";
 
@@ -42,6 +43,10 @@ export const PageUser = () => {
     setAction("delete");
     setVisible(true);
     setUser(user);
+  }, []);
+
+  const onClickHello = useCallback((user: IUsers) => {
+    alert(`Hello ${user.firstName} ${user.lastName}`);
   }, []);
 
   const handleClose = useCallback(() => setVisible(false), []);
@@ -90,7 +95,7 @@ export const PageUser = () => {
             <col style={{ width: "100px" }} />
             <col style={{ width: "100px" }} />
             <col style={{ width: "80px" }} />
-            <col style={{ width: "80px" }} />
+            <col style={{ width: "100px" }} />
           </colgroup>
           <TableHead>
             <TableRow>
@@ -154,6 +159,11 @@ export const PageUser = () => {
                   <Tooltip title="Delete">
                     <IconButton onClick={() => onClickDelete(user)}>
                       <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Hello">
+                    <IconButton onClick={() => onClickHello(user)}>
+                      <InfoIcon />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
