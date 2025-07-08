@@ -23,7 +23,7 @@ type IHeaderProps = {
 const settings = ["Profile", "Account", "Logout"];
 
 export const Header = (props: IHeaderProps) => {
-  const { openSideBar, label } = props;
+  const { openSideBar } = props;
 
   const router = useRouter();
 
