@@ -61,6 +61,8 @@ export const PageUser = () => {
     setUserList(newUserValue);
   }, []);
 
+  console.log("Hello Worlddd");
+
   return (
     <>
       <Header openSideBar={handleOpenSideBar} />
