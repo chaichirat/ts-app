@@ -1,0 +1,203 @@
+.headbar {
+    background-color: rgb(10, 10, 10);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    padding: 0px 16px;
+    padding-right: 40px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+
+    height: 60px;
+}
+
+.head-left, 
+.head-center, 
+.head-right {
+    display: flex;
+    align-items: center;
+}
+
+.head-left {
+    width: 250px;
+}
+
+.hamburger {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    height: 40px;
+    width: 40px;
+}
+
+.hamburger:hover {
+    background-color: rgb(43, 43, 43);
+}
+
+.hamburger:active {
+    background-color: rgb(63, 63, 63);
+}
+
+.hamburger img {
+    width: 20px;
+}
+
+.logo img {
+    margin-right: 2px;
+    width: 30px;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 22px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.head-center form {
+    display: flex;
+    align-items: center;
+}
+
+.head-center img {
+    width: 25px;
+}
+
+.head-center input {
+    width: 508px;
+    height: 40px;
+    border: 1px solid rgb(53, 53, 53);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 0px 16px;
+    background-color: rgb(2, 2, 2);
+    color: white;
+    font-size: 15.5px;
+    outline: none;
+}
+
+.head-center input:focus {
+    border: 1px solid rgb(52, 105, 220);
+}
+
+.head-center button {
+    border: 1px solid rgb(53, 53, 53);
+    border-left: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: rgb(37, 37, 37);
+    cursor: pointer;
+    outline: none;
+    padding-left: 8px;
+
+    height: 42px;
+    width: 60px;
+}
+
+.mic {
+    background-color: rgb(37, 37, 37);
+    border-radius: 50%;
+    margin-left: 16px;
+    cursor: pointer;
+
+    height: 40px;
+    width: 40px;
+}
+
+.mic:hover {
+    background-color: rgb(61, 61, 61);
+}
+
+.mic:active {
+    background-color: rgb(80, 80, 80);
+}
+
+.head-right, 
+.mic, 
+.create, 
+.bell, 
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.head-right {
+    justify-content: space-between;    
+    width: 190px;
+}
+
+.create {
+    font-size: 20px;
+    padding: 0px 16px;
+    background-color: rgb(37, 37, 37);
+    border-radius: 20px;
+    cursor: pointer;
+
+    height: 36px;
+}
+
+.create img {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.create:hover {
+    background-color: rgb(61, 61, 61);
+}
+
+.create:active {
+    background-color: rgb(80, 80, 80);
+}
+
+.bell {
+    position: relative;
+    border-radius: 50%;
+    cursor: pointer;
+
+    height: 40px;
+    width: 40px;
+}
+
+.bell .pop-up {
+    top: 60px;
+
+    z-index: 1000;
+}
+
+.bell img {
+    width: 28px;
+}
+
+.bell:hover {
+    background-color: rgb(43, 43, 43);
+}
+
+.bell:active {
+    background-color: rgb(63, 63, 63);
+}
+
+.profile img {
+    width: 32px;
+}
+
+.profile {
+    background-color: white;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.profile:active {
+    border: 1px solid rgb(52, 105, 220);
+}

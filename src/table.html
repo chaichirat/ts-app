@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Modern table</title>
+    <style>
+      body {
+        background-color: #697ae8;
+        background: linear-gradient(to right, #c1c1f5, #697ae8);
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      h1 {
+        color: rgb(255, 255, 255);
+        margin: 0px 0px 52px;
+        text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.34);
+        font-size: 48px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+
+      .table {
+        background-color: rgb(255, 255, 255);
+        border-radius: 8px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.378);
+        overflow: hidden;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 800px;
+      }
+
+      th,
+      td {
+        padding: 16px;
+        text-align: start;
+      }
+
+      th {
+        color: white;
+      }
+
+      tr:nth-child(1) {
+        background-color: rgb(153, 153, 244);
+        background: linear-gradient(to right, #7468f7, rgb(194, 171, 248));
+      }
+
+      tr:nth-child(even) {
+        background-color: rgb(217, 217, 241);
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: 0px 16px 0px 0px;
+        transition: all 0.15s ease-in-out;
+        cursor: pointer;
+      }
+
+      img:hover {
+        transform: scale(1.3);
+      }
+
+      td:nth-child(2) {
+        display: flex;
+        align-items: center;
+      }
+
+      tr {
+        transition: background-color 0.15s ease-in-out;
+      }
+
+      tr:hover {
+        background-color: rgb(190, 190, 242);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Modern table</h1>
+    <div class="table">
+      <table>
+        <tr>
+          <th>No.</th>
+          <th>Name</th>
+          <th>Sex</th>
+          <th>Age</th>
+          <th>Allergic</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>
+            <img
+              src="https://media.istockphoto.com/id/1327765575/photo/portrait-of-gorgeous-asian-woman-with-long-dark-hair-laughing-at-camera-with-beautiful-smile.jpg?s=612x612&w=0&k=20&c=zAbJf7Z6GHMn9IUdodt3ZW96WikU7dy6kuLWVqbw_FA="
+              alt="Meen"
+            /><span>Meen</span>
+          </td>
+          <td>Female</td>
+          <td>23</td>
+          <td>Allergy to cat hair.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/4/48/Outdoors-man-portrait_%28cropped%29.jpg"
+              alt="Mhee"
+            />Don
+          </td>
+          <td>Male</td>
+          <td>23</td>
+          <td>Allergy to shrimp.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <img
+              src="https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+              alt="Max"
+            />Mhee
+          </td>
+          <td>Male</td>
+          <td>24</td>
+          <td>Dust allergy.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            <img
+              src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740"
+              alt="Max"
+            />Max
+          </td>
+          <td>Male</td>
+          <td>23</td>
+          <td>Allergy to peanut butter.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>
+            <img
+              src="https://static.vecteezy.com/system/resources/thumbnails/005/346/410/small_2x/close-up-portrait-of-smiling-handsome-young-caucasian-man-face-looking-at-camera-on-isolated-light-gray-studio-background-photo.jpg"
+              alt="Nu"
+            />Nu
+          </td>
+          <td>Male</td>
+          <td>23</td>
+          <td>Cow's milk allergy.</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>
+            <img
+              src="https://cdn.pixabay.com/photo/2022/08/20/11/59/african-man-7398921_1280.jpg"
+              alt="Nop"
+            />Nop
+          </td>
+          <td>Male</td>
+          <td>23</td>
+          <td>Alcohol allergy.</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
