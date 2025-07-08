@@ -1,6 +1,6 @@
 import { Header } from "../../components/Header";
 import { SideBar } from "../../components/SideBar";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -64,6 +64,15 @@ export const PageUser = () => {
     });
 
     setUserList(newUserValue);
+  }, []);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        setUserList(json);
+        console.log(json);
+      });
   }, []);
 
   console.log("Hello Worlddd");
@@ -140,10 +149,10 @@ export const PageUser = () => {
                     <Tooltip title={user.firstName} placement="left">
                       <Avatar alt={user.firstName} src={user.image} />
                     </Tooltip>
-                    {user.firstName}
+                    {user.name.split(` `)[0]}
                   </Box>
                 </TableCell>
-                <TableCell align="left">{user.lastName}</TableCell>
+                <TableCell align="left">{user.name.split(` `)[1]}</TableCell>
                 <TableCell align="left">{user.age}</TableCell>
                 <TableCell align="center">
                   <Tooltip title="View">
