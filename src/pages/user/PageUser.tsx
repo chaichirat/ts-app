@@ -16,7 +16,6 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import InfoIcon from "@mui/icons-material/Info";
 import { users, type IUsers } from "../../constans/users";
 import { ModalUser } from "../../components/ModalUser";
 
@@ -50,19 +49,20 @@ export const PageUser = () => {
   const handleOpenSideBar = useCallback(() => setsideBarOpen(true), []);
   const handleCloseSideBar = useCallback(() => setsideBarOpen(false), []);
 
-  const onUpdateUser = useCallback((updatedUser: IUsers) => {
-    const newUserValue = userList.map((user) => {
-      if (user.id === updatedUser.id) {
-        return updatedUser;
-      } else {
-        return user;
-      }
-    });
+  const onUpdateUser = useCallback(
+    (updatedUser: IUsers) => {
+      const newUserValue = userList.map((user) => {
+        if (user.id === updatedUser.id) {
+          return updatedUser;
+        } else {
+          return user;
+        }
+      });
 
-    setUserList(newUserValue);
-  }, []);
-
-  console.log("Hello Worlddd");
+      setUserList(newUserValue);
+    },
+    [userList]
+  );
 
   return (
     <>
