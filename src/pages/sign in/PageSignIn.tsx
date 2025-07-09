@@ -12,7 +12,7 @@ import {
   OutlinedInput,
   TextField,
 } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { paths } from "../../constans/path";
 import { useRouter } from "../../utills/router";
 import { SnackBar } from "../../components/SnackBar";

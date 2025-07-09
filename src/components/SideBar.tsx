@@ -24,7 +24,7 @@ export const SideBar = (props: ISideBarProps) => {
   const { onOpen, onClose } = props;
 
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [_, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);

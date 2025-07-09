@@ -45,10 +45,6 @@ export const PageUser = () => {
     setUser(user);
   }, []);
 
-  const onClickHello = useCallback((user: IUsers) => {
-    alert(`Hello ${user.firstName} ${user.lastName}`);
-  }, []);
-
   const handleClose = useCallback(() => setVisible(false), []);
 
   const handleOpenSideBar = useCallback(() => setsideBarOpen(true), []);
@@ -95,7 +91,7 @@ export const PageUser = () => {
             <col style={{ width: "100px" }} />
             <col style={{ width: "100px" }} />
             <col style={{ width: "80px" }} />
-            <col style={{ width: "100px" }} />
+            <col style={{ width: "80px" }} />
           </colgroup>
           <TableHead>
             <TableRow>
@@ -159,11 +155,6 @@ export const PageUser = () => {
                   <Tooltip title="Delete">
                     <IconButton onClick={() => onClickDelete(user)}>
                       <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Hello">
-                    <IconButton onClick={() => onClickHello(user)}>
-                      <InfoIcon />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
