@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import queryString from "query-string";
 import { PageHome } from "../../pages/home/PageHome";
 import { PageSignIn } from "../../pages/sign in/PageSignIn";
+import { PageProfile } from "../../pages/profile/PageProfile";
 
 export const Router = () => {
   return useRoutes([
@@ -24,6 +25,10 @@ export const Router = () => {
     {
       path: paths.product,
       element: <PageProduct />,
+    },
+    {
+      path: paths.profile,
+      element: <PageProfile />,
     },
   ]);
 };

@@ -13,7 +13,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import React, { useCallback, useState } from "react";
 import { paths } from "../constans/path";
-import { useRouter } from "../utills/router";
 
 type IHeaderProps = {
   openSideBar: () => void;
@@ -24,8 +23,6 @@ const settings = ["Profile", "Account", "Logout"];
 export const Header = (props: IHeaderProps) => {
   const { openSideBar } = props;
 
-  const router = useRouter();
-
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,10 +31,6 @@ export const Header = (props: IHeaderProps) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const pathSignIn = useCallback(() => {
-    router.push(paths.signIn);
-  }, []);
 
   return (
     <>
@@ -65,13 +58,16 @@ export const Header = (props: IHeaderProps) => {
         </Box>
         <div className="menu">
           <li>
-            <Link to="/home">Home</Link>
+            <Link to={paths.home}>Home</Link>
           </li>
           <li>
-            <Link to="/product">Product</Link>
+            <Link to={paths.product}>Product</Link>
           </li>
           <li>
-            <Link to="/users">Users</Link>
+            <Link to={paths.users}>Users</Link>
+          </li>
+          <li>
+            <Link to={paths.profile}>Profile</Link>
           </li>
         </div>
         <Box marginRight="2rem" marginLeft="5rem">
@@ -109,7 +105,6 @@ export const Header = (props: IHeaderProps) => {
                   <ListItemButton
                     onClick={() => {
                       if (text === "Logout") {
-                        pathSignIn();
                       }
                     }}
                   >
