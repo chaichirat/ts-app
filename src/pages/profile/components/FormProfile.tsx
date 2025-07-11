@@ -27,15 +27,23 @@ export const FormProfile = () => {
         return errors;
     }, []);
 
-    return  (<Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
-    {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-            <Box sx={{p: 2, display: 'flex', flexDirection: 'column', gap: 2, bgcolor: 'background.paper'}}>
-                <TextField name="firstName" label="First Name" />
-                <TextField name="lastName" label="Last Name" />
-                <Button type="submit">Submit</Button>
-            </Box>
-        </form>
-    )}
+    return  (
+    <Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
+        {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+                <Box sx={{
+                    p: 4,
+                    gap: 2,
+                    borderRadius:2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    bgcolor: 'background.paper',
+                }}>
+                    <TextField name="firstName" label="First Name" />
+                    <TextField name="lastName" label="Last Name" />
+                    <Button type="submit" variant="contained">Submit</Button>
+                </Box>
+            </form>
+        )}
     </Form>)
 }

@@ -142,74 +142,11 @@ export const modifyComponent =
       )
     }
 
-    const renderWithHorizon = () => {
-      return (
-        <Box display="flex" flexDirection="column" gap={'8px'} width="100%">
-          <Box width="100%" justifyContent={'center'} alignItems={'start'} display="flex" flexDirection="row" gap={2}>
-            <Box
-              sx={{
-                minWidth: '35%', // ความกว้างคงที่ของ Label
-                textAlign: 'right',
-              }}
-            >
-              <Typography color={iserror || isDiff ? 'red' : grey[800]} variant="subtitle1" sx={{ mt: '14px' }}>
-                {label} {required && <label style={{ color: 'red ' }}>*</label>}
-              </Typography>
-            </Box>
+   
 
-            <Box sx={{ flex: 1 }} id={isDiff ? 'diff' : ''}>
-              <Component
-                {...input}
-                onChange={(v: any) => {
-                  input.onChange(v)
-                  onChange?.(v)
-                }}
-                onBlur={(v: any) => {
-                  onBlur?.(v)
-                  input.onBlur(v)
-                }}
-                error={iserror}
-                isDiff={isDiff}
-                iserror={iserror?.toString()} // แปลงเป็น string ก่อนส่ง
-                meta={meta}
-                {...restProps}
-                style={{ width: '390px' }}
-              />
-              <Box
-                sx={{
-                  minWidth: '35%', // ความกว้างคงที่ของ Label
-                  textAlign: 'right',
-                }}
-              ></Box>
-            </Box>
-          </Box>
-          <Box width="100%" justifyContent={'center'} alignItems={'center'} display="flex" flexDirection="row" gap={2}>
-            <Box
-              sx={{
-                minWidth: '35%', // ความกว้างคงที่ของ Label
-                textAlign: 'right',
-              }}
-            ></Box>
-            <Box sx={{ flex: 1 }}>
-              {iserror && (
-                <Box sx={{ mt: 1, mb: 1 }}>
-                  <Typography color="red">{error}</Typography>
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Box>
-      )
-    }
-
-    if (position === 'vertical') {
+    
       return renderWithVertical()
-    } else if (position === 'table') {
-      return renderWithTable()
-    } else {
-      return renderWithHorizon()
-    }
-  }
+}
 
 type CustomFieldProps = {
   hideErrorLabel?: boolean
