@@ -49,17 +49,20 @@ export const PageUser = () => {
   const handleOpenSideBar = useCallback(() => setsideBarOpen(true), []);
   const handleCloseSideBar = useCallback(() => setsideBarOpen(false), []);
 
-  const onUpdateUser = useCallback((updatedUser: IUsers) => {
-    const newUserValue = userList.map((user) => {
-      if (user.id === updatedUser.id) {
-        return updatedUser;
-      } else {
-        return user;
-      }
-    });
+  const onUpdateUser = useCallback(
+    (updatedUser: IUsers) => {
+      const newUserValue = userList.map((user) => {
+        if (user.id === updatedUser.id) {
+          return updatedUser;
+        } else {
+          return user;
+        }
+      });
 
-    setUserList(newUserValue);
-  }, []);
+      setUserList(newUserValue);
+    },
+    [userList]
+  );
 
   console.log("Hello Worlddd");
 

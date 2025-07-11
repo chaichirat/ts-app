@@ -11,6 +11,8 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import { paths } from "../../constans/path";
@@ -23,16 +25,34 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: {
+    xs: 300, // mobile
+    sm: 400, // tablet
+    md: 400, // laptop
+  },
+  height: {
+    xs: 480, // mobile
+    sm: 360, // tablet
+  },
   bgcolor: "background.paper",
   borderRadius: "16px",
   boxShadow: 24,
-  p: 6,
+  p: {
+    xs: 3, // mobile
+    sm: 4, // tablet
+    md: 6, // laptop
+  },
   color: "black",
 };
 
 export const PageSignIn = () => {
   const router = useRouter();
+  const theme = useTheme();
+
+  // Responsive check
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // <600px
+  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600px - 900px
+  const isLaptop = useMediaQuery(theme.breakpoints.up("md")); // >900px
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -107,68 +127,84 @@ export const PageSignIn = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     setEmailValue("");
-  //     setPasswordValue("");
-  //     setEmailHelperText("");
-  //     setPasswordHelperText("");
-  //     setEmailError(false);
-  //     setPasswordError(false);
-  //   }, []);
-
   return (
     <>
       <Box sx={style}>
-        <Box display="flex" flexDirection="column" gap="16px">
-          <h1 className="sign-in">Sign in</h1>
-          <TextField
-            error={emailError}
-            label="Email"
-            type="email"
-            value={emailValue}
-            onChange={(e) => setEmailValue(e.target.value)}
-            helperText={emailHelperText}
-          />
-          <FormControl error={passwordError}>
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              type={showPassword ? "text" : "password"}
-              value={passwordValue}
-              onChange={(e) => setPasswordValue(e.target.value)}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={isMobile ? "32px" : "16px"}
+          justifyContent="center"
+          height="100%"
+        >
+          <h1
+            className="sign-in"
+            style={{
+              fontSize: isMobile ? "2.5rem" : "3rem",
+              textAlign: "center",
+            }}
+          >
+            Sign in
+          </h1>
+          <Box display="flex" flexDirection="column" gap="16px">
+            <TextField
+              error={emailError}
+              label="Email"
+              type="email"
+              value={emailValue}
+              onChange={(e) => setEmailValue(e.target.value)}
+              helperText={emailHelperText}
+              fullWidth
             />
-            <FormHelperText>{passwordHelperText}</FormHelperText>
-          </FormControl>
+            <FormControl error={passwordError} fullWidth>
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                type={showPassword ? "text" : "password"}
+                value={passwordValue}
+                onChange={(e) => setPasswordValue(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={
+                        showPassword
+                          ? "hide the password"
+                          : "display the password"
+                      }
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      onMouseUp={handleMouseUpPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <FormHelperText>{passwordHelperText}</FormHelperText>
+            </FormControl>
+          </Box>
           <Box
             display="flex"
-            alignItems="center"
+            flexDirection={isMobile ? "column" : "row"}
+            alignItems={isMobile ? "flex-start" : "center"}
             justifyContent="space-between"
+            gap={isMobile ? 1 : 0}
           >
             <FormControlLabel control={<Checkbox />} label="Remember me" />
             <a className="forgot-pass" href="#">
               <span>Forgot Password?</span>
             </a>
           </Box>
-          <Button type="submit" variant="contained" onClick={onSubmit}>
+
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={onSubmit}
+            fullWidth
+          >
             Submit
           </Button>
         </Box>
