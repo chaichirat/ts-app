@@ -51,8 +51,6 @@ export const PageSignIn = () => {
 
   // Responsive check
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // <600px
-  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md")); // 600px - 900px
-  const isLaptop = useMediaQuery(theme.breakpoints.up("md")); // >900px
 
   const [showPassword, setShowPassword] = useState(false);
 
