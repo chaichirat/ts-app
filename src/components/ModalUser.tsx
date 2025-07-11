@@ -1,14 +1,19 @@
 import {
   Avatar,
+  Badge,
   Box,
   Button,
+  ButtonBase,
   Card,
   CardContent,
   Modal,
   TextField,
   Typography,
+  styled,
+  type BadgeProps,
 } from "@mui/material";
 import { type IUsers } from "../constans/users";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type IModalUserProps = {
@@ -38,7 +43,7 @@ export const ModalUser = (props: IModalUserProps) => {
 
     onUpdateUser(updatedUser);
     onClose();
-  }, [firstName, lastName, age]);
+  }, [image, firstName, lastName, age]);
 
   const onChangeFirstName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -56,6 +61,18 @@ export const ModalUser = (props: IModalUserProps) => {
     [age]
   );
 
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Read the file as a data URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const isDisable = useMemo(() => {
     return action === "view" || action === "delete";
   }, [action]);
@@ -66,6 +83,15 @@ export const ModalUser = (props: IModalUserProps) => {
     setLastName(user?.lastName);
     setAge(user?.age);
   }, [user, onOpen]);
+
+  const cameraIcon = <CameraAltIcon />;
+
+  const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+    "& .MuiBadge-badge": {
+      right: 12,
+      bottom: 8,
+    },
+  }));
 
   return (
     <>
@@ -89,7 +115,53 @@ export const ModalUser = (props: IModalUserProps) => {
             justifyContent="center"
             margin="1rem"
           >
-            <Avatar src={image} sx={{ width: 100, height: 100 }} />
+            {action === "view" && (
+              <Avatar src={image} sx={{ width: 100, height: 100 }} />
+            )}
+            {action === "delete" && (
+              <Avatar src={image} sx={{ width: 100, height: 100 }} />
+            )}
+            {action === "edit" && (
+              <ButtonBase
+                component="label"
+                role={undefined}
+                tabIndex={-1} // prevent label from tab focus
+                aria-label="Avatar image"
+                sx={{
+                  borderRadius: "40px",
+                  "&:has(:focus-visible)": {
+                    outline: "2px solid",
+                    outlineOffset: "2px",
+                  },
+                }}
+              >
+                <StyledBadge
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  badgeContent={cameraIcon}
+                >
+                  <Avatar src={image} sx={{ width: 100, height: 100 }} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{
+                      border: 0,
+                      clip: "rect(0 0 0 0)",
+                      height: "1px",
+                      margin: "-1px",
+                      overflow: "hidden",
+                      padding: 0,
+                      position: "absolute",
+                      whiteSpace: "nowrap",
+                      width: "1px",
+                    }}
+                    onChange={handleAvatarChange}
+                  />
+                </StyledBadge>
+              </ButtonBase>
+            )}
           </Box>
           <CardContent sx={{ textAlign: "left" }}>
             <Typography gutterBottom variant="h6" component="div">
