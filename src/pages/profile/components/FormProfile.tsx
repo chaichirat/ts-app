@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { Form } from "react-final-form";
 import { TextField } from "../../../components/field-form";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 
 type IProfileType = {
   firstName: string;
@@ -29,9 +30,11 @@ export const FormProfile = () => {
     return  (<Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
     {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-        <TextField name="firstName" label="First Name" />
-        <TextField name="lastName" label="Last Name" />
-        <Button type="submit">Submit</Button>
+            <Box sx={{p: 2, display: 'flex', flexDirection: 'column', gap: 2, bgcolor: 'background.paper'}}>
+                <TextField name="firstName" label="First Name" />
+                <TextField name="lastName" label="Last Name" />
+                <Button type="submit">Submit</Button>
+            </Box>
         </form>
     )}
     </Form>)

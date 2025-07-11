@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import React, { useMemo, ComponentType, useEffect, useState } from 'react'
-import { FieldRenderProps, FieldProps, Field } from 'react-final-form'
+import React, { useMemo, type ComponentType, useEffect, useState } from 'react'
+import { type FieldRenderProps, Field, type FieldProps } from 'react-final-form'
 
 export type Props<T> = {
   position?: 'vertical' | 'horizon' | 'table'
