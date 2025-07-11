@@ -1,5 +1,7 @@
 import { useCallback, useState } from "react";
 import { Header } from "../../components/Header";
+import { FormProfile } from "./components/FormProfile";
+
 
 export const PageProfile = () => {
   const [sideBarOpen, setsideBarOpen] = useState(false);
@@ -10,10 +12,17 @@ export const PageProfile = () => {
   const handleCloseSideBar = useCallback(() => {
     setsideBarOpen(false);
   }, []);
+
+
+  // const onSubmit = useCallback((values: IProfileType) => {
+  //   console.log("Form submitted with values:", values);
+  // }, []);
+ 
+
   return (
     <div>
       <Header openSideBar={handleOpenSideBar} />
-      <h1>Hello World</h1>
+      <FormProfile  />
     </div>
   );
 };

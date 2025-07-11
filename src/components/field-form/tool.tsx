@@ -204,7 +204,7 @@ export const modifyComponent =
 
     if (position === 'vertical') {
       return renderWithVertical()
-    } else if (position === 'table' || position === 'tableAccount') {
+    } else if (position === 'table') {
       return renderWithTable()
     } else {
       return renderWithHorizon()
