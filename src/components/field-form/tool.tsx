@@ -1,22 +1,25 @@
-import { Box, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
-import React, { useMemo, type ComponentType, useEffect, useState } from 'react'
-import { type FieldRenderProps, Field, type FieldProps } from 'react-final-form'
+import { Box, Typography } from "@mui/material";
+import { useMemo, type ComponentType, useEffect, useState } from "react";
+import {
+  type FieldRenderProps,
+  Field,
+  type FieldProps,
+} from "react-final-form";
 
 export type Props<T> = {
-  position?: 'vertical' | 'horizon' | 'table'
-} & FieldRenderProps<T>
+  position?: "vertical" | "horizon" | "table";
+} & FieldRenderProps<T>;
 
 export const modifyComponent =
-  (Component: ComponentType<any>, width = '100%') =>
-  (props: Omit<Props<any>, 'onBlur'>) => {
+  (Component: ComponentType<any>, width = "100%") =>
+  (props: Omit<Props<any>, "onBlur">) => {
     const {
       input,
       meta,
       onChange,
       onBlur,
       label,
-      position = 'horizon',
+      position = "horizon",
       // hideErrorLabel = false,
       dataDiff,
       nameDiff,
@@ -24,44 +27,48 @@ export const modifyComponent =
       required,
       dataTable,
       ...restProps
-    } = props
+    } = props;
 
-    const { error, touched, data } = meta
+    const { error, touched, data } = meta;
 
     const iserror = useMemo(() => {
-      return error && touched
-    }, [error, touched])
+      return error && touched;
+    }, [error, touched]);
 
-    const [isDiff, setIsDiff] = useState<boolean>(false)
-    const [rowDiff, setRowDiff] = useState<string[]>([])
+    const [isDiff, setIsDiff] = useState<boolean>(false);
+    const [rowDiff, setRowDiff] = useState<string[]>([]);
 
     useEffect(() => {
       if (dataDiff) {
-        const splitName = input.name.split('.')
-        let realName = splitName[0]
+        const splitName = input.name.split(".");
+        let realName = splitName[0];
         if (splitName.length > 1) {
-          realName = splitName[1]
+          realName = splitName[1];
         }
 
-        if (position === 'table') {
+        if (position === "table") {
           const rowDiffTemp = dataDiff
-            ?.filter((x: string) => x.indexOf(nameDiff) > -1 && x.slice(-1) !== 's')
-            ?.map((x: string) => x.slice(-1))
+            ?.filter(
+              (x: string) => x.indexOf(nameDiff) > -1 && x.slice(-1) !== "s"
+            )
+            ?.map((x: string) => x.slice(-1));
 
           if (rowDiffTemp?.length > 0) {
-            setIsDiff(true)
-            setRowDiff(rowDiffTemp)
+            setIsDiff(true);
+            setRowDiff(rowDiffTemp);
           }
-        } else if (position === 'tableAccount' && dataDiff.includes(realName)) {
-          const rowDiffTemp = dataTable?.map((_: any, index: number) => index.toString())
+        } else if (position === "tableAccount" && dataDiff.includes(realName)) {
+          const rowDiffTemp = dataTable?.map((_: any, index: number) =>
+            index.toString()
+          );
 
-          setIsDiff(true)
-          setRowDiff(rowDiffTemp)
+          setIsDiff(true);
+          setRowDiff(rowDiffTemp);
         } else if (dataDiff.includes(realName)) {
-          setIsDiff(true)
-        } else setIsDiff(false)
+          setIsDiff(true);
+        } else setIsDiff(false);
       }
-    }, [input.name, dataDiff, position, nameDiff, dataTable, props])
+    }, [input.name, dataDiff, position, nameDiff, dataTable, props]);
 
     const renderWithTable = () => {
       return (
@@ -70,37 +77,44 @@ export const modifyComponent =
           gap="8px"
           flexDirection="column"
           width="100%"
-          alignItems={'start'}
-          textAlign={'start'}
-          id={isDiff ? 'diff' : ''}
+          alignItems={"start"}
+          textAlign={"start"}
+          id={isDiff ? "diff" : ""}
         >
           <Component
             {...input}
             {...restProps}
             data={dataTable}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             rowDiff={rowDiff}
             titleTable={
               <Typography
                 variant="body1"
                 fontSize={16}
                 fontWeight={500}
-                sx={isDiff ? { mr: 'auto', color: 'error.main' } : { mr: 'auto' }}
-                alignSelf={'center'}
+                sx={
+                  isDiff ? { mr: "auto", color: "error.main" } : { mr: "auto" }
+                }
+                alignSelf={"center"}
               >
-                {title} {required && <label style={{ color: 'red ' }}>*</label>}
+                {title} {required && <label style={{ color: "red " }}>*</label>}
               </Typography>
             }
           />
 
           {iserror && (
-            <Box display="flex" flexDirection="row" justifyContent={'start'} sx={{ marginTont: '4px' }}>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent={"start"}
+              sx={{ marginTont: "4px" }}
+            >
               <Typography color="red">{error}</Typography>
             </Box>
           )}
         </Box>
-      )
-    }
+      );
+    };
 
     const renderWithVertical = () => {
       return (
@@ -109,20 +123,20 @@ export const modifyComponent =
           gap="8px"
           flexDirection="column"
           width="100%"
-          alignItems={'start'}
-          textAlign={'start'}
-          id={isDiff ? 'diff' : ''}
+          alignItems={"start"}
+          textAlign={"start"}
+          id={isDiff ? "diff" : ""}
         >
           <Component
             {...input}
-            label={label ?? ''}
+            label={label ?? ""}
             onChange={(v: any) => {
-              input.onChange(v)
-              onChange?.(v)
+              input.onChange(v);
+              onChange?.(v);
             }}
             onBlur={(v: any) => {
-              onBlur?.(v)
-              input.onBlur(v)
+              onBlur?.(v);
+              input.onBlur(v);
             }}
             error={iserror}
             iserror={iserror?.toString()} // แปลงเป็น string ก่อนส่ง
@@ -130,34 +144,41 @@ export const modifyComponent =
             data={data}
             isDiff={isDiff}
             {...restProps}
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
 
           {iserror && (
-            <Box display="flex" flexDirection="row" justifyContent={'start'} sx={{ marginTont: '4px' }}>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent={"start"}
+              sx={{ marginTont: "4px" }}
+            >
               <Typography color="red">{error}</Typography>
             </Box>
           )}
         </Box>
-      )
-    }
+      );
+    };
 
-   
-
-    
-      return renderWithVertical()
-}
+    return renderWithVertical();
+  };
 
 type CustomFieldProps = {
-  hideErrorLabel?: boolean
-}
+  hideErrorLabel?: boolean;
+};
 
 // export const makeField = <T,>(component: ComponentType<any>, width?: string) => {
 //   const newComponent = modifyComponent(component, width)
 //   return (props: FieldProps<string, Props<string>> & T & CustomFieldProps) => <Field {...props} render={newComponent} />
 // }
 
-export const makeField = <T,>(component: ComponentType<any>, width?: string) => {
-  const newComponent = modifyComponent(component, width)
-  return (props: FieldProps<string, Props<string>> & T & CustomFieldProps) => <Field {...props} render={newComponent} />
-}
+export const makeField = <T,>(
+  component: ComponentType<any>,
+  width?: string
+) => {
+  const newComponent = modifyComponent(component, width);
+  return (props: FieldProps<string, Props<string>> & T & CustomFieldProps) => (
+    <Field {...props} render={newComponent} />
+  );
+};
