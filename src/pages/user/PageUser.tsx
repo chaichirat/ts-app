@@ -1,5 +1,4 @@
 import { Header } from "../../components/Header";
-import { SideBar } from "../../components/SideBar";
 import { useCallback, useState } from "react";
 import {
   Avatar,
@@ -20,7 +19,6 @@ import { users, type IUsers } from "../../constans/users";
 import { ModalUser } from "../../components/ModalUser";
 
 export const PageUser = () => {
-  const [sideBarOpen, setsideBarOpen] = useState(false);
   const [action, setAction] = useState<"view" | "edit" | "delete">("view");
   const [visible, setVisible] = useState(false);
   const [user, setUser] = useState<IUsers>();
@@ -46,9 +44,6 @@ export const PageUser = () => {
 
   const handleClose = useCallback(() => setVisible(false), []);
 
-  const handleOpenSideBar = useCallback(() => setsideBarOpen(true), []);
-  const handleCloseSideBar = useCallback(() => setsideBarOpen(false), []);
-
   const onUpdateUser = useCallback(
     (updatedUser: IUsers) => {
       const newUserValue = userList.map((user) => {
@@ -66,8 +61,7 @@ export const PageUser = () => {
 
   return (
     <>
-      <Header openSideBar={handleOpenSideBar} />
-      <SideBar onOpen={sideBarOpen} onClose={handleCloseSideBar} />
+      <Header />
       <h1>Users table</h1>
       <ModalUser
         onOpen={visible}

@@ -1,6 +1,5 @@
 import { Box, Button, Card } from "@mui/material";
 import { Header } from "../../components/Header";
-import { SideBar } from "../../components/SideBar";
 import { SignIn } from "../../components/SignIn";
 import { Count } from "../../components/Count";
 import { useCallback, useEffect, useState } from "react";
@@ -83,16 +82,7 @@ const ResizeComponent = () => {
 
 export const PageHome = () => {
   const [open, setOpen] = useState(false);
-
   const [show, setShow] = useState(true);
-  const [sideBarOpen, setsideBarOpen] = useState(false);
-
-  const handleOpenSideBar = useCallback(() => {
-    setsideBarOpen(true);
-  }, []);
-  const handleCloseSideBar = useCallback(() => {
-    setsideBarOpen(false);
-  }, []);
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -100,9 +90,8 @@ export const PageHome = () => {
 
   return (
     <>
-      <Header openSideBar={handleOpenSideBar} />
+      <Header />
       <SignIn open={open} onClose={handleClose} />
-      <SideBar onOpen={sideBarOpen} onClose={handleCloseSideBar} />
       <h1>Welcome to React.ts Sunny!</h1>
       <Box
         display="flex"

@@ -8,29 +8,27 @@ import {
   Menu,
   Tooltip,
 } from "@mui/material";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import React, { useCallback, useState } from "react";
 import { paths } from "../constans/path";
-
-type IHeaderProps = {
-  openSideBar: () => void;
-};
+import { SideBar } from "./SideBar";
 
 const settings = ["Profile", "Account", "Logout"];
 
-export const Header = (props: IHeaderProps) => {
-  const { openSideBar } = props;
-
+export const Header = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const onOpenSideBar = useCallback(() => setOpen(true), []);
+  const onCloseSideBar = useCallback(() => setOpen(false), []);
+
+  const onOpenUserMenu = useCallback((event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
+  }, []);
+  const onCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
-  };
+  }, []);
 
   return (
     <>
@@ -40,12 +38,13 @@ export const Header = (props: IHeaderProps) => {
             <IconButton
               color="inherit"
               aria-label="open drawer"
-              onClick={openSideBar}
+              onClick={onOpenSideBar}
               edge="start"
             >
               <MenuIcon />
             </IconButton>
           </Box>
+          <SideBar onOpen={open} onClose={onCloseSideBar} />
           <div className="nav-logo">
             <a href="https://react.dev" target="_blank">
               <img
@@ -73,7 +72,7 @@ export const Header = (props: IHeaderProps) => {
         <Box marginRight="2rem" marginLeft="5rem">
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Your account.">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Sunny"
                   src="https://external-preview.redd.it/DV3mZUmp6UPShpkTqx8kFi_7W1HoxzscJ_CdI-Odcsw.jpg?auto=webp&s=f0041b75fe43c288cb5de925bcdf8d0c9e2bfc80"
@@ -94,14 +93,10 @@ export const Header = (props: IHeaderProps) => {
                 horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClose={onCloseUserMenu}
             >
               {settings.map((text) => (
-                <ListItem
-                  key={text}
-                  disablePadding
-                  onClick={handleCloseUserMenu}
-                >
+                <ListItem key={text} disablePadding onClick={onCloseUserMenu}>
                   <ListItemButton
                     onClick={() => {
                       if (text === "Logout") {

@@ -11,6 +11,7 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
+
 import { useCallback, useState } from "react";
 import { paths } from "../constans/path";
 import { useRouter } from "../utills/router";
@@ -33,11 +34,9 @@ export const SideBar = (props: ISideBarProps) => {
   const pathHome = useCallback(() => {
     router.push(paths.home);
   }, []);
-
   const pathUsers = useCallback(() => {
     router.push(paths.users);
   }, []);
-
   const pathProduct = useCallback(() => {
     router.push(paths.product);
   }, []);
@@ -75,10 +74,10 @@ export const SideBar = (props: ISideBarProps) => {
   );
 
   return (
-    <div>
+    <>
       <Drawer open={onOpen} onClose={onClose}>
         {DrawerList}
       </Drawer>
-    </div>
+    </>
   );
 };
