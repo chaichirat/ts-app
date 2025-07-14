@@ -1,4 +1,9 @@
-import { useCallback, useState } from "react";
+import {
+  useCallback,
+  useState,
+  type ChangeEventHandler,
+  type ChangeEvent,
+} from "react";
 import { Form } from "react-final-form";
 import { TextField } from "../../../components/field-form";
 import Button from "@mui/material/Button";
@@ -7,7 +12,7 @@ import { Box } from "@mui/material";
 type IProfileType = {
   firstName: string;
   lastName: string;
-  age: string;
+  age: number;
 };
 
 export const FormProfile = () => {
@@ -27,10 +32,18 @@ export const FormProfile = () => {
       errors.lastName = "Last Name is required";
     }
     if (!values.age) {
-      errors.age = "Age is required";
+      errors.age = "Age is required" as any;
     }
+    console.log("Error:", errors);
     return errors;
   }, []);
+
+  const onChange = useCallback(
+    (values: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      console.log("Change values:", values.target.value);
+    },
+    []
+  );
 
   return (
     <>
@@ -48,9 +61,13 @@ export const FormProfile = () => {
                 width: 400,
               }}
             >
-              <TextField name="firstName" label="First Name" />
+              <TextField
+                name="firstName"
+                label="First Name"
+                onChange={onChange}
+              />
               <TextField name="lastName" label="Last Name" />
-              <TextField name="age" label="Age" />
+              <TextField type="number" name="age" label="Age" />
               <Button type="submit" variant="contained">
                 Submit
               </Button>
