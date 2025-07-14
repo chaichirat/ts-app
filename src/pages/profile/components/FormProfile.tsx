@@ -1,15 +1,13 @@
 import {
   useCallback,
   useState,
-  type ChangeEventHandler,
-  type ChangeEvent,
 } from "react";
 import { Form } from "react-final-form";
-import { TextField } from "../../../components/field-form";
-import Button from "@mui/material/Button";
-import { Box } from "@mui/material";
 
-type IProfileType = {
+import { Box } from "@mui/material";
+import { FormProfileDetail } from "./FormProfileDetail";
+
+export type IProfileType = {
   firstName: string;
   lastName: string;
   age: number;
@@ -38,40 +36,14 @@ export const FormProfile = () => {
     return errors;
   }, []);
 
-  const onChange = useCallback(
-    (values: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      console.log("Change values:", values.target.value);
-    },
-    []
-  );
+  
 
   return (
     <>
       <Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Box
-              sx={{
-                p: 4,
-                gap: 2,
-                borderRadius: 2,
-                display: "flex",
-                flexDirection: "column",
-                bgcolor: "background.paper",
-                width: 400,
-              }}
-            >
-              <TextField
-                name="firstName"
-                label="First Name"
-                onChange={onChange}
-              />
-              <TextField name="lastName" label="Last Name" />
-              <TextField type="number" name="age" label="Age" />
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
-            </Box>
+            <FormProfileDetail />
           </form>
         )}
       </Form>
