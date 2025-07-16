@@ -20,7 +20,7 @@ export const FormProfile = () => {
     setShowProfile(true);
   }, []);
 
-  const onResetShowProfile = () => setShowProfile(false);
+  const onResetShowProfile = useCallback(() => setShowProfile(false), []);
 
   const onValidate = useCallback((values: IProfileType) => {
     const errors: Partial<IProfileType> = {};
@@ -43,29 +43,28 @@ export const FormProfile = () => {
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <FormProfileDetail onShowProfile={onResetShowProfile} />
+            {showProfile ? (
+              <Box
+                sx={{
+                  p: 4,
+                  m: "2rem",
+                  borderRadius: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  bgcolor: "background.paper",
+                  color: "black",
+                  width: 400,
+                }}
+              >
+                <h2>First name: {profile?.firstName}</h2>
+                <h2>Last name: {profile?.lastName}</h2>
+                <h2>Age: {profile?.age}</h2>
+              </Box>
+            ) : undefined}
           </form>
         )}
       </Form>
-
-      {showProfile ? (
-        <Box
-          sx={{
-            p: 4,
-            m: "2rem",
-            borderRadius: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "start",
-            bgcolor: "background.paper",
-            color: "black",
-            width: 400,
-          }}
-        >
-          <h2>First name: {profile?.firstName}</h2>
-          <h2>Last name: {profile?.lastName}</h2>
-          <h2>Age: {profile?.age}</h2>
-        </Box>
-      ) : undefined}
     </>
   );
 };

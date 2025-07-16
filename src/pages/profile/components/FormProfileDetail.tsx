@@ -7,7 +7,7 @@ import { useCustomForm } from "../../../components/field-form/use-form";
 import type { IProfileType } from "./FormProfile";
 
 type IFormProfileDetail = {
-  onShowProfile: (x: any) => void;
+  onShowProfile: () => void;
 };
 
 export const FormProfileDetail = (props: IFormProfileDetail) => {
@@ -27,7 +27,8 @@ export const FormProfileDetail = (props: IFormProfileDetail) => {
   );
 
   const onReset = useCallback(() => {
-    onShowProfile(restart());
+    restart();
+    onShowProfile();
   }, []);
 
   return (
