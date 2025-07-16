@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  
-  type ChangeEvent,
-} from "react";
+import { useCallback, type ChangeEvent } from "react";
 
 import { TextField } from "../../../components/field-form";
 import Button from "@mui/material/Button";
@@ -10,21 +6,33 @@ import { Box } from "@mui/material";
 import { useCustomForm } from "../../../components/field-form/use-form";
 import type { IProfileType } from "./FormProfile";
 
-export const FormProfileDetail = () => {
+type IFormProfileDetail = {
+  onShowProfile: (x: any) => void;
+};
 
-    const { change  } = useCustomForm<IProfileType>();
+export const FormProfileDetail = (props: IFormProfileDetail) => {
+  const { onShowProfile } = props;
+  const { change, restart } = useCustomForm<IProfileType>();
 
-    const onChange = useCallback(
-        (values: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          console.log("Change values:", values.target.value);
-          change('lastName', values.target.value);
-        },
-        [change]
-    );
+  const onChangeFirstName = useCallback(
+    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      console.log("Change values:", e.target.value);
 
-    return (
+      if (e.target.value === "sunny") {
+        change("lastName", "wiwat");
+        change("age", 23);
+      }
+    },
+    [change]
+  );
+
+  const onReset = useCallback(() => {
+    onShowProfile(restart());
+  }, []);
+
+  return (
     <Box
-        sx={{
+      sx={{
         p: 4,
         gap: 2,
         borderRadius: 2,
@@ -32,18 +40,33 @@ export const FormProfileDetail = () => {
         flexDirection: "column",
         bgcolor: "background.paper",
         width: 400,
-        }}
+      }}
     >
-        <TextField
+      <TextField
         name="firstName"
         label="First Name"
-        onChange={onChange}
-        />
-        <TextField name="lastName" label="Last Name" />
-        <TextField type="number" name="age" label="Age" />
-        <Button type="submit" variant="contained">
-        Submit
+        onChange={onChangeFirstName}
+      />
+      <TextField name="lastName" label="Last Name" />
+      <TextField type="number" name="age" label="Age" />
+      <Box
+        display="flex"
+        flexDirection="row"
+        gap="1rem"
+        justifyContent="center"
+      >
+        <Button
+          sx={{ width: "100%" }}
+          color="error"
+          variant="contained"
+          onClick={onReset}
+        >
+          Clear
         </Button>
+        <Button sx={{ width: "100%" }} type="submit" variant="contained">
+          Submit
+        </Button>
+      </Box>
     </Box>
-    )
-}
+  );
+};

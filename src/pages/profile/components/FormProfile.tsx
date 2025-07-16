@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import { Form } from "react-final-form";
 
 import { Box } from "@mui/material";
@@ -10,16 +7,20 @@ import { FormProfileDetail } from "./FormProfileDetail";
 export type IProfileType = {
   firstName: string;
   lastName: string;
-  age: number;
+  age: string;
 };
 
 export const FormProfile = () => {
-  const [user, setUser] = useState<IProfileType>();
+  const [profile, setProfile] = useState<IProfileType>();
+  const [showProfile, setShowProfile] = useState(false);
 
   const onSubmit = useCallback((values: IProfileType) => {
     console.log("Form submitted with values:", values);
-    setUser(values);
+    setProfile(values);
+    setShowProfile(true);
   }, []);
+
+  const onResetShowProfile = () => setShowProfile(false);
 
   const onValidate = useCallback((values: IProfileType) => {
     const errors: Partial<IProfileType> = {};
@@ -30,25 +31,23 @@ export const FormProfile = () => {
       errors.lastName = "Last Name is required";
     }
     if (!values.age) {
-      errors.age = "Age is required" as any;
+      errors.age = "Age is required";
     }
     console.log("Error:", errors);
     return errors;
   }, []);
-
-  
 
   return (
     <>
       <Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <FormProfileDetail />
+            <FormProfileDetail onShowProfile={onResetShowProfile} />
           </form>
         )}
       </Form>
 
-      {user && (
+      {showProfile ? (
         <Box
           sx={{
             p: 4,
@@ -62,11 +61,11 @@ export const FormProfile = () => {
             width: 400,
           }}
         >
-          <h2>First name: {user?.firstName}</h2>
-          <h2>Last name: {user?.lastName}</h2>
-          <h2>Age: {user?.age}</h2>
+          <h2>First name: {profile?.firstName}</h2>
+          <h2>Last name: {profile?.lastName}</h2>
+          <h2>Age: {profile?.age}</h2>
         </Box>
-      )}
+      ) : undefined}
     </>
   );
 };
