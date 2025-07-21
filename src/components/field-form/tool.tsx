@@ -107,9 +107,12 @@ export const modifyComponent =
               display="flex"
               flexDirection="row"
               justifyContent={"start"}
+              width="100%"
               sx={{ marginTont: "4px" }}
             >
-              <Typography color="red">{error}</Typography>
+              <Typography fontSize="14px" color="red">
+                {error}
+              </Typography>
             </Box>
           )}
         </Box>
@@ -152,9 +155,12 @@ export const modifyComponent =
               display="flex"
               flexDirection="row"
               justifyContent={"start"}
+              width="100%"
               sx={{ marginTont: "4px" }}
             >
-              <Typography color="red">{error}</Typography>
+              <Typography fontSize="14px" color="red">
+                {error}
+              </Typography>
             </Box>
           )}
         </Box>

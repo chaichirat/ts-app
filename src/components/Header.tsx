@@ -69,7 +69,7 @@ export const Header = () => {
             <Link to={paths.profile}>Profile</Link>
           </li>
         </div>
-        <Box marginRight="2rem" marginLeft="5rem">
+        <Box marginRight="2rem" marginLeft="8rem">
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Your account.">
               <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>

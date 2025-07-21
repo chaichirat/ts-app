@@ -1,4 +1,4 @@
 import { makeField } from "./tool";
-import { TextField as TextFieldMUI, type TextFieldProps } from "@mui/material";
+import { TextField as TextFieldMUI } from "@mui/material";
 
-export const TextField = makeField<TextFieldProps>(TextFieldMUI);
+export const TextField = makeField(TextFieldMUI);

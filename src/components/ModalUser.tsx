@@ -61,17 +61,20 @@ export const ModalUser = (props: IModalUserProps) => {
     [age]
   );
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Read the file as a data URL
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const handleAvatarChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        // Read the file as a data URL
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    [image]
+  );
 
   const isDisable = useMemo(() => {
     return action === "view" || action === "delete";
