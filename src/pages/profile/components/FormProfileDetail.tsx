@@ -1,4 +1,4 @@
-import { useCallback, type ChangeEvent } from "react";
+import { useCallback, useMemo, type ChangeEvent } from "react";
 import {
   ImageField,
   SelectField,
@@ -37,6 +37,13 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
     resetShowProfile();
   }, [restart]);
 
+  const top100FilmsOption = useMemo(() => {
+    return top100Films.map((film) => ({
+      label: film?.label,
+      value: film?.year,
+    }));
+  }, []);
+
   return (
     <>
       <Box
@@ -67,7 +74,7 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           name="age"
           label="Age"
         />
-        <SelectField name="select" label="Movie" options={top100Films} />
+        <SelectField name="select" label="Movie" options={top100FilmsOption} />
         <SelectField name="select" label="Gender" options={genderOption} />
         <Box
           display="flex"
