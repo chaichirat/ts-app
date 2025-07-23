@@ -1,5 +1,4 @@
 import { Autocomplete, TextField, type TextFieldProps } from "@mui/material";
-import top100Films from "./top100Films";
 import { useCallback, type SyntheticEvent, useEffect, useState } from "react";
 
 type IOptionProp = {
