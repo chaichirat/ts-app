@@ -128,6 +128,7 @@ export const modifyComponent =
           width="100%"
           alignItems={"start"}
           textAlign={"start"}
+          marginBottom={"4px"}
           id={isDiff ? "diff" : ""}
         >
           <Component

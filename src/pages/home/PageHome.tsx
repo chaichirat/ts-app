@@ -1,8 +1,7 @@
 import { Box, Button, Card } from "@mui/material";
 import { Header } from "../../components/Header";
-import { SignIn } from "../../components/SignIn";
 import { Count } from "../../components/Count";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type IScoreProps = {
   label: string;
@@ -81,17 +80,11 @@ const ResizeComponent = () => {
 };
 
 export const PageHome = () => {
-  const [open, setOpen] = useState(false);
   const [show, setShow] = useState(true);
-
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, []);
 
   return (
     <>
       <Header />
-      <SignIn open={open} onClose={handleClose} />
       <h1>Welcome to React.ts Sunny!</h1>
       <Box
         display="flex"

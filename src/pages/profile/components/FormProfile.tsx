@@ -1,6 +1,5 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Form } from "react-final-form";
-import { Avatar, Box } from "@mui/material";
 import { FormProfileDetail } from "./FormProfileDetail";
 
 export type IProfileType = {
@@ -8,20 +7,23 @@ export type IProfileType = {
   lastName: string;
   age: string;
   image: string;
-  showProfile: boolean;
-  submittedValues: Partial<IProfileType>;
+  select: string;
 };
 
 export const FormProfile = () => {
-  const onSubmit = useCallback((values: IProfileType, form: any) => {
-    console.log("Form submitted with values:", values);
-    form.change("submittedValues", {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      age: values.age,
-      image: values.image,
-    });
-    form.change("showProfile", true);
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+
+  const onSubmit = useCallback(
+    (values: IProfileType) => {
+      console.log("Form submitted with values:", values);
+      setShowProfile(true);
+      console.log("show:", showProfile);
+    },
+    [showProfile]
+  );
+
+  const resetShowProfile = useCallback(() => {
+    setShowProfile(false);
   }, []);
 
   const onValidate = useCallback((values: IProfileType) => {
@@ -38,6 +40,10 @@ export const FormProfile = () => {
     if (!values.age) {
       errors.age = "Age is required";
     }
+    if (!values.select) {
+      errors.select = "Select is required" as any;
+    }
+
     console.log("Error:", errors);
     console.log("result", values);
     return errors;
@@ -45,52 +51,23 @@ export const FormProfile = () => {
 
   return (
     <>
-      <Form<IProfileType>
-        onSubmit={onSubmit}
-        validate={onValidate}
-        initialValues={{ showProfile: false }}
-      >
-        {({ handleSubmit, values }) => {
-          const showInfo = values.submittedValues;
-          return (
-            <form
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-              onSubmit={handleSubmit}
-            >
-              <FormProfileDetail />
-
-              {values.showProfile ? (
-                <Box
-                  sx={{
-                    p: 4,
-                    m: "2rem",
-                    borderRadius: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                    bgcolor: "background.paper",
-                    color: "black",
-                    width: 400,
-                  }}
-                >
-                  <Box display="flex" justifyContent="center" width="100%">
-                    <Avatar
-                      src={showInfo.image}
-                      sx={{ width: 100, height: 100 }}
-                    ></Avatar>
-                  </Box>
-                  <h2>First name: {showInfo.firstName}</h2>
-                  <h2>Last name: {showInfo.lastName}</h2>
-                  <h2>Age: {showInfo.age}</h2>
-                </Box>
-              ) : undefined}
-            </form>
-          );
-        }}
+      <h1>Page Profile</h1>
+      <Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
+        {({ handleSubmit }) => (
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+            onSubmit={handleSubmit}
+          >
+            <FormProfileDetail
+              showProfile={showProfile}
+              resetShowProfile={resetShowProfile}
+            />
+          </form>
+        )}
       </Form>
     </>
   );

@@ -68,8 +68,38 @@ export const Header = () => {
           <li>
             <Link to={paths.profile}>Profile</Link>
           </li>
+          <li>
+            <Link to={paths.profile2}>Profile2</Link>
+          </li>
+          <li>
+            <Link to={paths.profile3}>Profile3</Link>
+          </li>
+          <li>
+            <Link to={paths.profile4}>Profile4</Link>
+          </li>
+          <li>
+            <Link to={paths.profile5}>Profile5</Link>
+          </li>
+          <li>
+            <Link to={paths.profile6}>Profile6</Link>
+          </li>
+          <li>
+            <Link to={paths.profile7}>Profile7</Link>
+          </li>
+          <li>
+            <Link to={paths.profile8}>Profile8</Link>
+          </li>
+          <li>
+            <Link to={paths.profile9}>Profile9</Link>
+          </li>
+          <li>
+            <Link to={paths.profile10}>Profile10</Link>
+          </li>
+          <li>
+            <Link to={paths.profile11}>Profile11</Link>
+          </li>
         </div>
-        <Box marginRight="2rem" marginLeft="8rem">
+        <Box marginRight="2rem" marginLeft="4rem">
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Your account.">
               <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>

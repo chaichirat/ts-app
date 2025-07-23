@@ -1,11 +1,11 @@
 import { Avatar, Box, ButtonBase, Badge, type BadgeProps } from "@mui/material";
 import { styled } from "@mui/system";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { makeField } from "./tool";
 import { useCallback } from "react";
 
 type IImageFieldProps = {
-  value?: string;
+  value: string;
+  error: boolean;
   onChange: (value: string) => void;
 };
 
@@ -16,8 +16,8 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
   },
 }));
 
-export const ImageField = makeField((props: IImageFieldProps) => {
-  const { value, onChange } = props;
+export const ImageUpdate = (props: IImageFieldProps) => {
+  const { value, error, onChange } = props;
 
   const handleAvatarChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ export const ImageField = makeField((props: IImageFieldProps) => {
       }
       event.target.value = "";
     },
-    []
+    [onChange]
   );
 
   return (
@@ -52,7 +52,14 @@ export const ImageField = makeField((props: IImageFieldProps) => {
           badgeContent={<CameraAltIcon />}
           sx={{ color: "black" }}
         >
-          <Avatar src={value} sx={{ width: 100, height: 100 }} />
+          <Avatar
+            src={value}
+            sx={{
+              width: 100,
+              height: 100,
+              outline: error ? "1px solid red" : "",
+            }}
+          />
           <input
             type="file"
             accept="image/*"
@@ -73,4 +80,4 @@ export const ImageField = makeField((props: IImageFieldProps) => {
       </ButtonBase>
     </Box>
   );
-});
+};
