@@ -1,8 +1,4 @@
 import { Autocomplete, TextField, type TextFieldProps } from "@mui/material";
-<<<<<<< HEAD
-
-=======
->>>>>>> ddfe188 (Update SelectField.tsx)
 import { useCallback, type SyntheticEvent, useEffect, useState } from "react";
 
 type IOptionProp = {

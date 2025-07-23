@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 import { Avatar, Box } from "@mui/material";
 import { useCustomForm } from "../../../components/field-form/use-form";
 import type { IProfileType } from "./FormProfile";
+import { genderOption } from "../../../components/field-form/selector/gender";
+import top100Films from "../../../components/field-form/selector/top100Films";
 
 export type IFormProFileProps = {
   showProfile: boolean;
@@ -65,8 +67,8 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           name="age"
           label="Age"
         />
-        <SelectField name="select" label="Movie" />
-        <SelectField name="select" label="Gender" />
+        <SelectField name="select" label="Movie" options={top100Films} />
+        <SelectField name="select" label="Gender" options={genderOption} />
         <Box
           display="flex"
           flexDirection="row"
