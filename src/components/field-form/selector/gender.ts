@@ -1,5 +1,5 @@
-export const gender = [
+export const genderOption = [
   { label: "Male", value: "m" },
-  { label: "Female", value: "fm" },
-  { label: "Other", value: "ot" },
+  { label: "Female", value: "f" },
+  { label: "Other", value: "o" },
 ];

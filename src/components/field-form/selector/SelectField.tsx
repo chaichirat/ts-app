@@ -1,5 +1,5 @@
 import { Autocomplete, TextField, type TextFieldProps } from "@mui/material";
-import top100Films from "./top100Films";
+
 import { useCallback, type SyntheticEvent, useEffect, useState } from "react";
 
 type IOptionProp = {
@@ -32,15 +32,8 @@ export const Selector = (props: ISelectorProps) => {
   }, [defaultValue, options, value]);
 
   const handleSelectChange = useCallback(
-    (
-      event: SyntheticEvent<Element, Event>,
-      value: {
-        label: string;
-        year: number;
-      } | null
-    ) => {
-      console.log(value?.label);
-      onChange?.(value?.label as string);
+    (_: SyntheticEvent<Element, Event>, newValue: IOptionProp | null) => {
+      onChange?.(newValue?.value as string);
     },
     [onChange]
   );
