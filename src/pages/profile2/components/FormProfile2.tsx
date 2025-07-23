@@ -28,7 +28,7 @@ export const FormProfile2 = () => {
       errors.age = "Age is required";
     }
     if (!values.select) {
-      errors.select = "Age is required";
+      errors.select = "Movie is required";
     }
 
     return errors;

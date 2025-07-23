@@ -66,6 +66,7 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           label="Age"
         />
         <SelectField name="select" label="Movie" />
+        <SelectField name="select" label="Gender" />
         <Box
           display="flex"
           flexDirection="row"

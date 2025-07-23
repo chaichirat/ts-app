@@ -1,15 +1,35 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, type TextFieldProps } from "@mui/material";
 import top100Films from "./top100Films";
-import { useCallback, type SyntheticEvent } from "react";
+import { useCallback, type SyntheticEvent, useEffect, useState } from "react";
 
-type ISelectorProps = {
-  value: string;
-  error: boolean;
-  onChange: (value: string) => void;
+type IOptionProp = {
+  label: string;
+  value: string | number;
 };
 
+export type ISelectorProps = {
+  onChange?: (value: string) => void;
+  label: string;
+  defaultValue?: string;
+  options?: IOptionProp[];
+} & Omit<TextFieldProps, "onChange">;
+
 export const Selector = (props: ISelectorProps) => {
-  const { value, error, onChange } = props;
+  const { onChange, label, defaultValue, options = [], ...restProps } = props;
+
+  const [value, setValue] = useState<any>(defaultValue);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setValue(null);
+    } else {
+      const found = options?.find((option) => {
+        return defaultValue === option.value;
+      });
+
+      setValue(found);
+    }
+  }, [defaultValue, options, value]);
 
   const handleSelectChange = useCallback(
     (
@@ -20,7 +40,7 @@ export const Selector = (props: ISelectorProps) => {
       } | null
     ) => {
       console.log(value?.label);
-      onChange(value?.label as string);
+      onChange?.(value?.label as string);
     },
     [onChange]
   );
@@ -28,11 +48,11 @@ export const Selector = (props: ISelectorProps) => {
   return (
     <Autocomplete
       disablePortal
-      value={top100Films.find((film) => film.label === value)}
-      options={top100Films}
+      value={value}
+      options={options}
       sx={{ width: "100%" }}
       renderInput={(params) => (
-        <TextField {...params} error={error} label="Movie" />
+        <TextField {...params} {...restProps} label={label} />
       )}
       onChange={handleSelectChange}
     />
