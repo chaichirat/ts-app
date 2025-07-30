@@ -14,19 +14,31 @@ export const FormProfile4 = () => {
     const errors: Partial<IProfileType> = {};
 
     if (!values.image) {
-      errors.image = "Image is required";
+      errors.image = "Image is required.";
     }
     if (!values.firstName) {
-      errors.firstName = "First Name is required";
+      errors.firstName = "First Name is required.";
     }
     if (!values.lastName) {
-      errors.lastName = "Last Name is required";
+      errors.lastName = "Last Name is required.";
     }
     if (!values.age) {
-      errors.age = "Age is required";
+      errors.age = "Age is required.";
     }
-    if (!values.select) {
-      errors.select = "Select is required";
+    if (!values.gender) {
+      errors.gender = "Gender is required.";
+    }
+    if (!values.movie) {
+      errors.movie = "Movie is required.";
+    }
+    if (!values.provice) {
+      errors.provice = "Provice is required.";
+    }
+    if (!values.district) {
+      errors.district = "District is required.";
+    }
+    if (!values.job) {
+      errors.job = "Job is required.";
     }
 
     return errors;

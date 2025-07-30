@@ -81,7 +81,7 @@ export const FormProfileDetail5 = (props: IFormProFileProps5) => {
           <h2>First Name: {values.firstName}</h2>
           <h2>Last Name: {values.lastName}</h2>
           <h2>Age: {values.age}</h2>
-          <h2>Movie: {values.select}</h2>
+          <h2>Movie: {values.movie}</h2>
         </Box>
       ) : undefined}
     </>

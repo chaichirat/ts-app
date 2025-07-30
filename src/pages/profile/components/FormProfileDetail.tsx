@@ -1,6 +1,8 @@
-import { useCallback, useMemo, type ChangeEvent } from "react";
+import { useCallback, useMemo, type ChangeEvent, useState } from "react";
 import {
+  CheckboxField,
   ImageField,
+  RadioField,
   SelectField,
   TextField,
 } from "../../../components/field-form";
@@ -9,7 +11,15 @@ import { Avatar, Box } from "@mui/material";
 import { useCustomForm } from "../../../components/field-form/use-form";
 import type { IProfileType } from "./FormProfile";
 import { genderOption } from "../../../components/field-form/selector/gender";
-import top100Films from "../../../components/field-form/selector/top100Films";
+import { top100Films } from "../../../components/field-form/selector/top100Films";
+import { jobOption } from "../../../components/field-form/selector/job";
+import {
+  bangkokOptions,
+  chiangmaiOptions,
+  chonburiOptions,
+  provinces,
+} from "../../../components/field-form/selector/address";
+import type { IOptionProp } from "../../../components/field-form/selector/SelectField";
 
 export type IFormProFileProps = {
   showProfile: boolean;
@@ -19,6 +29,7 @@ export type IFormProFileProps = {
 export const FormProfileDetail = (props: IFormProFileProps) => {
   const { showProfile, resetShowProfile } = props;
   const { change, restart, values } = useCustomForm<IProfileType>();
+  const [districtOptions, setDistrictOptions] = useState<IOptionProp[]>([]);
 
   const onChangeFirstName = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,10 +43,25 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
     [change]
   );
 
+  const onChangeProvince = useCallback((provinceValue: string) => {
+    if (provinceValue === "bangkok") {
+      setDistrictOptions(bangkokOptions);
+    } else if (provinceValue === "chiang_mai") {
+      setDistrictOptions(chiangmaiOptions);
+    } else if (provinceValue === "chonburi") {
+      setDistrictOptions(chonburiOptions);
+    }
+  }, []);
+
   const onReset = useCallback(() => {
     restart();
     resetShowProfile();
+    setDistrictOptions([]);
   }, [restart]);
+
+  const getLabel = (options: IOptionProp[], value: string): string => {
+    return options.find((option) => option.value === value)?.label ?? "";
+  };
 
   const top100FilmsOption = useMemo(() => {
     return top100Films.map((film) => ({
@@ -43,6 +69,33 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
       value: film?.year,
     }));
   }, []);
+
+  const jobOptions = useMemo(() => {
+    return jobOption.map((job) => ({
+      label: job,
+      value: job,
+    }));
+  }, []);
+
+  const genderLabel = useMemo(() => {
+    return getLabel(genderOption, values.gender);
+  }, [values.gender]);
+
+  const movieLabel = useMemo(() => {
+    return getLabel(top100FilmsOption, values.movie);
+  }, [values.movie]);
+
+  const proviceLabel = useMemo(() => {
+    return getLabel(provinces, values.provice);
+  }, [values.provice]);
+
+  const districtLabel = useMemo(() => {
+    return getLabel(districtOptions, values.district);
+  }, [values.district]);
+
+  const jobLabel = useMemo(() => {
+    return Array.isArray(values.job) ? values.job.join(", ") : values.job;
+  }, [values.job]);
 
   return (
     <>
@@ -55,6 +108,7 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           flexDirection: "column",
           bgcolor: "background.paper",
           width: 400,
+          color: "black",
         }}
       >
         <ImageField name="image" label="Profile Image" />
@@ -74,8 +128,20 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           name="age"
           label="Age"
         />
-        <SelectField name="select" label="Movie" options={top100FilmsOption} />
-        <SelectField name="select" label="Gender" options={genderOption} />
+        <RadioField name="gender" label="Gender" options={genderOption} />
+        <SelectField
+          name="provice"
+          label="Provinces"
+          options={provinces}
+          onChange={onChangeProvince}
+        />
+        <SelectField
+          name="district"
+          label="Districts"
+          options={districtOptions}
+        />
+        <SelectField name="movie" label="Movie" options={top100FilmsOption} />
+        <CheckboxField name="job" label="Job" options={jobOptions} />
         <Box
           display="flex"
           flexDirection="row"
@@ -116,7 +182,13 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           <h2>First name: {values.firstName}</h2>
           <h2>Last name: {values.lastName}</h2>
           <h2>Age: {values.age}</h2>
-          <h2>Movie: {values.select}</h2>
+          <h2>Gender: {genderLabel}</h2>
+          <h2>
+            Address: {districtLabel}, {proviceLabel}
+          </h2>
+          <h2>Movie: {movieLabel}</h2>
+
+          <h2>Job: {jobLabel}</h2>
         </Box>
       ) : undefined}
     </>

@@ -7,7 +7,11 @@ export type IProfileType = {
   lastName: string;
   age: string;
   image: string;
-  select: string;
+  movie: string;
+  gender: string;
+  job: string;
+  provice: string;
+  district: string;
 };
 
 export const FormProfile = () => {
@@ -40,8 +44,20 @@ export const FormProfile = () => {
     if (!values.age) {
       errors.age = "Age is required";
     }
-    if (!values.select) {
-      errors.select = "Select is required" as any;
+    if (!values.movie) {
+      errors.movie = "Movie is required";
+    }
+    if (!values.gender) {
+      errors.gender = "Gender is required";
+    }
+    if (!values.job) {
+      errors.job = "Job is required";
+    }
+    if (!values.provice) {
+      errors.provice = "Provice is required";
+    }
+    if (!values.district) {
+      errors.district = "District is required";
     }
 
     console.log("Error:", errors);

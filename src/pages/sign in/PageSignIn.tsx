@@ -107,15 +107,6 @@ export const PageSignIn = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     setEmailValue("");
-  //     setPasswordValue("");
-  //     setEmailHelperText("");
-  //     setPasswordHelperText("");
-  //     setEmailError(false);
-  //     setPasswordError(false);
-  //   }, []);
-
   return (
     <>
       <Box sx={style}>

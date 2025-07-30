@@ -17,7 +17,7 @@ const StyledBadge = styled(Badge)<BadgeProps>(() => ({
 }));
 
 export const ImageUpdate = (props: IImageFieldProps) => {
-  const { value, error, onChange } = props;
+  const { value, error, onChange, ...restProps } = props;
 
   const handleAvatarChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,6 +63,7 @@ export const ImageUpdate = (props: IImageFieldProps) => {
           <input
             type="file"
             accept="image/*"
+            {...restProps}
             style={{
               border: 0,
               clip: "rect(0 0 0 0)",
