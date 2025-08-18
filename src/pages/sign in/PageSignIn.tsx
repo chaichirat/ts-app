@@ -61,7 +61,7 @@ export const PageSignIn = () => {
     e.preventDefault();
   };
 
-  const validate = () => {
+  const validate = useCallback(() => {
     let isValid = true;
 
     const foundUser = emails.find((u) => u.email === emailValue);
@@ -94,7 +94,7 @@ export const PageSignIn = () => {
       }
     }
     return isValid;
-  };
+  }, [emailHelperText, emailError, passwordHelperText, passwordError]);
 
   const onSubmit = () => {
     const isValid = validate();

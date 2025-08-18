@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { Form } from "react-final-form";
 import { FormProfileDetail } from "./FormProfileDetail";
+import { useTranslation } from "react-i18next";
 
 export type IProfileType = {
   firstName: string;
@@ -9,13 +10,16 @@ export type IProfileType = {
   image: string;
   movie: string;
   gender: string;
-  job: string;
-  provice: string;
+  job: string[];
+  province: string;
   district: string;
+  textSoftware: string;
+  textOther: string;
 };
 
 export const FormProfile = () => {
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const onSubmit = useCallback(
     (values: IProfileType) => {
@@ -30,44 +34,57 @@ export const FormProfile = () => {
     setShowProfile(false);
   }, []);
 
-  const onValidate = useCallback((values: IProfileType) => {
-    const errors: Partial<IProfileType> = {};
-    if (!values.image) {
-      errors.image = "Image is required";
-    }
-    if (!values.firstName) {
-      errors.firstName = "First Name is required";
-    }
-    if (!values.lastName) {
-      errors.lastName = "Last Name is required";
-    }
-    if (!values.age) {
-      errors.age = "Age is required";
-    }
-    if (!values.movie) {
-      errors.movie = "Movie is required";
-    }
-    if (!values.gender) {
-      errors.gender = "Gender is required";
-    }
-    if (!values.job) {
-      errors.job = "Job is required";
-    }
-    if (!values.provice) {
-      errors.provice = "Provice is required";
-    }
-    if (!values.district) {
-      errors.district = "District is required";
-    }
+  const onValidate = useCallback(
+    (values: IProfileType) => {
+      const errors: Partial<IProfileType> = {};
+      if (!values.image) {
+        errors.image = t("Image Error");
+      }
+      if (!values.firstName) {
+        errors.firstName = t("First Name Error");
+      }
+      if (!values.lastName) {
+        errors.lastName = t("Last Name Error");
+      }
+      if (!values.age) {
+        errors.age = t("Age Error");
+      }
+      if (!values.movie) {
+        errors.movie = t("Movie Error");
+      }
+      if (!values.gender) {
+        errors.gender = t("Gender Error");
+      }
+      if (!values.province) {
+        errors.province = t("Province Error");
+      }
+      if (!values.district) {
+        errors.district = t("District Error");
+      }
+      if (!values.job) {
+        errors.job = t("Job Error") as any;
+      }
+      if (values.job?.includes("other")) {
+        if (!values.textOther) {
+          errors.textOther = t("Other Text Error");
+        }
+      }
+      if (values.job?.includes("software_engineer")) {
+        if (!values.textSoftware) {
+          errors.textSoftware = t("Software Text Error");
+        }
+      }
 
-    console.log("Error:", errors);
-    console.log("result", values);
-    return errors;
-  }, []);
+      console.log("Error:", errors);
+      console.log("result", values);
+      return errors;
+    },
+    [t]
+  );
 
   return (
     <>
-      <h1>Page Profile</h1>
+      <h1>{t("Page Profile")}</h1>
       <Form<IProfileType> onSubmit={onSubmit} validate={onValidate}>
         {({ handleSubmit }) => (
           <form

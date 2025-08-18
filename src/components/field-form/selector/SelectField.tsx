@@ -1,5 +1,6 @@
 import { Autocomplete, TextField, type TextFieldProps } from "@mui/material";
 import { useCallback, type SyntheticEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 export type IOptionProp = {
   label: string;
@@ -15,6 +16,7 @@ export type ISelectorProps = {
 
 export const Selector = (props: ISelectorProps) => {
   const { onChange, label, value, options = [], ...restProps } = props;
+  const { t } = useTranslation();
 
   const selectedOption =
     options.find((option) => option.value === value) || null;
@@ -26,35 +28,15 @@ export const Selector = (props: ISelectorProps) => {
     [onChange]
   );
 
-  // const [value, setValue] = useState<any>(defaultValue);
-
-  // useEffect(() => {
-  //   if (defaultValue) {
-  //     setValue(null);
-  //   } else {
-  //     const found = options?.find((option) => {
-  //       return defaultValue === option.value;
-  //     });
-
-  //     setValue(found);
-  //   }
-  // }, [defaultValue, options, value]);
-
-  // const handleSelectChange = useCallback(
-  //   (_: SyntheticEvent<Element, Event>, newValue: IOptionProp | null) => {
-  //     onChange?.(newValue?.value as string);
-  //   },
-  //   [onChange]
-  // );
-
   return (
     <Autocomplete
       disablePortal
       value={selectedOption}
       options={options}
+      getOptionLabel={(option) => t(option.label)}
       sx={{ width: "100%" }}
       renderInput={(params) => (
-        <TextField {...params} {...restProps} label={label} />
+        <TextField {...params} {...restProps} label={t(label)} />
       )}
       onChange={handleSelectChange}
     />

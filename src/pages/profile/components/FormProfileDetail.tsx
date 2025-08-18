@@ -20,6 +20,7 @@ import {
   provinces,
 } from "../../../components/field-form/selector/address";
 import type { IOptionProp } from "../../../components/field-form/selector/SelectField";
+import { useTranslation } from "react-i18next";
 
 export type IFormProFileProps = {
   showProfile: boolean;
@@ -30,12 +31,19 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
   const { showProfile, resetShowProfile } = props;
   const { change, restart, values } = useCustomForm<IProfileType>();
   const [districtOptions, setDistrictOptions] = useState<IOptionProp[]>([]);
+  const { t } = useTranslation();
 
   const onChangeFirstName = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      console.log("Change values:", event.target.value);
+      const textValue = event.target.value;
 
-      if (event.target.value === "sunny") {
+      if (textValue.includes("Mr.")) {
+        change("gender", "m");
+      } else if (textValue.includes("Ms.")) {
+        change("gender", "f");
+      }
+
+      if (textValue.includes("sunny")) {
         change("lastName", "wiwat");
         change("age", 23);
       }
@@ -59,9 +67,9 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
     setDistrictOptions([]);
   }, [restart]);
 
-  const getLabel = (options: IOptionProp[], value: string): string => {
-    return options.find((option) => option.value === value)?.label ?? "";
-  };
+  const getLabel = useCallback((options: IOptionProp[], value: string) => {
+    return options.find((option) => option.value === value)?.label;
+  }, []);
 
   const top100FilmsOption = useMemo(() => {
     return top100Films.map((film) => ({
@@ -70,32 +78,35 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
     }));
   }, []);
 
-  const jobOptions = useMemo(() => {
-    return jobOption.map((job) => ({
-      label: job,
-      value: job,
-    }));
-  }, []);
-
   const genderLabel = useMemo(() => {
-    return getLabel(genderOption, values.gender);
-  }, [values.gender]);
+    return getLabel(genderOption, values?.gender ?? "");
+  }, [values?.gender]);
 
   const movieLabel = useMemo(() => {
-    return getLabel(top100FilmsOption, values.movie);
-  }, [values.movie]);
+    return getLabel(top100FilmsOption, values?.movie ?? "");
+  }, [values?.movie]);
 
   const proviceLabel = useMemo(() => {
-    return getLabel(provinces, values.provice);
-  }, [values.provice]);
+    return getLabel(provinces, values?.province ?? "");
+  }, [values?.province]);
 
   const districtLabel = useMemo(() => {
-    return getLabel(districtOptions, values.district);
-  }, [values.district]);
+    return getLabel(districtOptions, values?.district ?? "");
+  }, [values?.district]);
 
   const jobLabel = useMemo(() => {
-    return Array.isArray(values.job) ? values.job.join(", ") : values.job;
-  }, [values.job]);
+    const labels = jobOption
+      .filter((job) => values?.job?.includes(job.value))
+      .map((job) => {
+        if (job.nameText) {
+          return t(values?.[`${job.nameText as keyof IProfileType}`] ?? "");
+        } else {
+          return t(job.label);
+        }
+      });
+
+    return labels.join(", ");
+  }, [values?.job, values?.textOther, values?.textSoftware, t]);
 
   return (
     <>
@@ -114,10 +125,10 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
         <ImageField name="image" label="Profile Image" />
         <TextField
           name="firstName"
-          label="First Name"
+          label={t("First Name")}
           onChange={onChangeFirstName}
         />
-        <TextField name="lastName" label="Last Name" />
+        <TextField name="lastName" label={t("Last Name")} />
         <TextField
           type="number"
           sx={{
@@ -126,22 +137,22 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
             },
           }}
           name="age"
-          label="Age"
+          label={t("Age")}
         />
-        <RadioField name="gender" label="Gender" options={genderOption} />
+        <RadioField name="gender" label={"Gender"} options={genderOption} />
         <SelectField
-          name="provice"
-          label="Provinces"
+          name="province"
+          label={"Provinces"}
           options={provinces}
           onChange={onChangeProvince}
         />
         <SelectField
           name="district"
-          label="Districts"
+          label={"Districts"}
           options={districtOptions}
         />
-        <SelectField name="movie" label="Movie" options={top100FilmsOption} />
-        <CheckboxField name="job" label="Job" options={jobOptions} />
+        <SelectField name="movie" label={"Movie"} options={top100FilmsOption} />
+        <CheckboxField name="job" label={"Job"} options={jobOption} />
         <Box
           display="flex"
           flexDirection="row"
@@ -177,18 +188,29 @@ export const FormProfileDetail = (props: IFormProFileProps) => {
           }}
         >
           <Box display="flex" justifyContent="center" width="100%">
-            <Avatar src={values.image} sx={{ width: 100, height: 100 }} />
+            <Avatar src={values?.image} sx={{ width: 100, height: 100 }} />
           </Box>
-          <h2>First name: {values.firstName}</h2>
-          <h2>Last name: {values.lastName}</h2>
-          <h2>Age: {values.age}</h2>
-          <h2>Gender: {genderLabel}</h2>
           <h2>
-            Address: {districtLabel}, {proviceLabel}
+            {t("First Name")}: {values?.firstName}
           </h2>
-          <h2>Movie: {movieLabel}</h2>
-
-          <h2>Job: {jobLabel}</h2>
+          <h2>
+            {t("Last Name")}: {values?.lastName}
+          </h2>
+          <h2>
+            {t("Age")}: {values?.age}
+          </h2>
+          <h2>
+            {t("Gender")}: {t(genderLabel ?? "")}
+          </h2>
+          <h2>
+            {t("Address")}: {t(districtLabel ?? "")}, {t(proviceLabel ?? "")}
+          </h2>
+          <h2>
+            {t("Movie")}: {movieLabel}
+          </h2>
+          <h2>
+            {t("Job")}: {jobLabel}
+          </h2>
         </Box>
       ) : undefined}
     </>

@@ -7,17 +7,23 @@ import {
   ListItemText,
   Menu,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import React, { useCallback, useState } from "react";
 import { paths } from "../constans/path";
 import { SideBar } from "./SideBar";
+import { useTranslation } from "react-i18next";
+import { useRouter } from "../utills/router";
 
 const settings = ["Profile", "Account", "Logout"];
 
 export const Header = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const { i18n } = useTranslation();
+  const router = useRouter();
+  const [language, setLanguage] = useState("en");
   const [open, setOpen] = useState(false);
 
   const onOpenSideBar = useCallback(() => setOpen(true), []);
@@ -29,6 +35,20 @@ export const Header = () => {
   const onCloseUserMenu = useCallback(() => {
     setAnchorElUser(null);
   }, []);
+
+  // const onChangeLanguage = useCallback(() => {
+  //   const newLang = language === "en" ? "th" : "en";
+  //   i18n.changeLanguage(newLang);
+  //   setLanguage(newLang);
+  // }, [language, i18n]);
+
+  const onChangeLng = useCallback(
+    (lng: string) => {
+      i18n.changeLanguage(lng);
+      setLanguage(lng);
+    },
+    [i18n]
+  );
 
   return (
     <>
@@ -99,7 +119,62 @@ export const Header = () => {
             <Link to={paths.profile11}>Profile11</Link>
           </li>
         </div>
-        <Box marginRight="2rem" marginLeft="4rem">
+
+        <Box
+          display="flex"
+          alignItems="center"
+          gap="2rem"
+          marginLeft="1rem"
+          marginRight="2rem"
+        >
+          <Box display="flex" gap="8px">
+            {/* <Typography
+              onClick={onChangeLanguage}
+              variant="button"
+              sx={{
+                cursor: "pointer",
+                willchange: "filter",
+                transition: "filter 300ms",
+                "&:hover": { filter: "drop-shadow(0 0 0.6em #ffffffd0)" },
+              }}
+            >
+              {language === "en" ? "th" : "en"}
+            </Typography> */}
+            <Typography
+              onClick={() => onChangeLng("th")}
+              variant="button"
+              sx={{
+                cursor: "pointer",
+                willchange: "filter",
+                transition: "filter 300ms",
+                "&:hover": {
+                  filter: "drop-shadow(0 0 0.6em #ffffffd0)",
+                  color: "aqua",
+                },
+                color: language === "th" ? "aqua" : "",
+              }}
+            >
+              th
+            </Typography>
+            <Typography variant="button">|</Typography>
+            <Typography
+              onClick={() => onChangeLng("en")}
+              variant="button"
+              sx={{
+                cursor: "pointer",
+                willchange: "filter",
+                transition: "filter 300ms",
+                "&:hover": {
+                  filter: "drop-shadow(0 0 0.6em #ffffffd0)",
+                  color: "aqua",
+                },
+                color: language === "en" ? "aqua" : "",
+              }}
+            >
+              en
+            </Typography>
+          </Box>
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Your account.">
               <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
@@ -130,6 +205,10 @@ export const Header = () => {
                   <ListItemButton
                     onClick={() => {
                       if (text === "Logout") {
+                        router.push(paths.signIn);
+                      }
+                      if (text === "Profile") {
+                        router.push(paths.profile);
                       }
                     }}
                   >
