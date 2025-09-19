@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   Table,
   TableBody,
@@ -17,15 +18,24 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-import { users, type IUsers } from "../../constans/users";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { type IUsers } from "../../constans/users";
 import { ModalUser } from "../../components/ModalUser";
 
 export const PageUser = () => {
   const [sideBarOpen, setsideBarOpen] = useState(false);
-  const [action, setAction] = useState<"view" | "edit" | "delete">("view");
+  const [action, setAction] = useState<"create" | "view" | "edit" | "delete">(
+    "view"
+  );
   const [visible, setVisible] = useState(false);
   const [user, setUser] = useState<IUsers>();
-  const [userList, setUserList] = useState(users);
+  const [userList, setUserList] = useState<IUsers[]>([]);
+
+  const onClickCreate = useCallback(() => {
+    setAction("create");
+    setVisible(true);
+    setUser(user);
+  }, []);
 
   const onClickEdit = useCallback((user: IUsers) => {
     setAction("edit");
@@ -65,16 +75,29 @@ export const PageUser = () => {
 
   //     setUserList(newUserValue);
   //   }, []);
+  const onCreateUser = useCallback((newUser: IUsers) => {
+    fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify(newUser),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        setUserList((prev) => [...prev, { ...newUser }]);
+      });
+  }, []);
 
   const onUpdateUser = useCallback((updatedUser: IUsers) => {
-    console.log(updatedUser);
-    console.log("Update Users");
+    console.log("Update Users:", updatedUser);
     fetch(`https://jsonplaceholder.typicode.com/users/${updatedUser.id}`, {
       method: "PUT",
       body: JSON.stringify({
         id: updatedUser.id,
         userId: updatedUser.id,
-        name: updatedUser.firstName + " " + updatedUser.lastName,
+        name: updatedUser.name,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -82,6 +105,18 @@ export const PageUser = () => {
     })
       .then((response) => response.json())
       .then((json) => console.log(json));
+
+    setUserList((prev) =>
+      prev.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    );
+  }, []);
+
+  const onDeleteUser = useCallback((deleteUser: IUsers) => {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${deleteUser.id}`, {
+      method: "DELETE",
+    });
+
+    setUserList((prev) => prev.filter((user) => user.id !== deleteUser.id));
   }, []);
 
   useEffect(() => {
@@ -105,100 +140,122 @@ export const PageUser = () => {
         onClose={handleClose}
         action={action}
         user={user}
+        onCreateUser={onCreateUser}
         onUpdateUser={onUpdateUser}
+        onDeleteUser={onDeleteUser}
       />
-      <TableContainer
+      <Box
         sx={{
-          width: "1100px",
-          borderRadius: "1rem",
-          backgroundColor: "rgba(230, 230, 230, 0.57)",
-          backdropFilter: "blur(2.5rem)",
-          boxShadow: "0px 15px 30px rgba(98, 190, 255, 0.47)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.5rem",
+          mb: "2rem",
         }}
       >
-        <Table>
-          <colgroup>
-            <col style={{ width: "60px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "100px" }} />
-            <col style={{ width: "80px" }} />
-            <col style={{ width: "100px" }} />
-          </colgroup>
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">
-                <b>No.</b>
-              </TableCell>
-              <TableCell align="left">
-                <b>First Name</b>
-              </TableCell>
-              <TableCell align="left">
-                <b>Last Name</b>
-              </TableCell>
-              <TableCell align="left">
-                <b>Age</b>
-              </TableCell>
-              <TableCell align="center">
-                <b>Actions</b>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userList.map((user) => (
-              <TableRow
-                key={user.id}
-                sx={{
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  ":nth-child(odd)": {
-                    backgroundColor: "rgba(245, 245, 245, 0.27)",
-                  },
-                }}
-              >
-                <TableCell component="th" scope="row">
-                  {user.id}
+        <Box sx={{ display: "flex", width: "100%", justifyContent: "end" }}>
+          <Button
+            startIcon={<PersonAddAltIcon />}
+            variant="contained"
+            color="success"
+            sx={{ borderRadius: "10px" }}
+            onClick={onClickCreate}
+          >
+            Create
+          </Button>
+        </Box>
+        <TableContainer
+          sx={{
+            width: "1100px",
+            borderRadius: "1rem",
+            backgroundColor: "rgba(230, 230, 230, 0.57)",
+            backdropFilter: "blur(2.5rem)",
+            boxShadow: "0px 15px 30px rgba(98, 190, 255, 0.47)",
+          }}
+        >
+          <Table>
+            <colgroup>
+              <col style={{ width: "60px" }} />
+              <col style={{ width: "100px" }} />
+              <col style={{ width: "100px" }} />
+              <col style={{ width: "80px" }} />
+              <col style={{ width: "100px" }} />
+            </colgroup>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">
+                  <b>No.</b>
                 </TableCell>
                 <TableCell align="left">
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    gap="1rem"
-                    alignItems="center"
-                  >
-                    <Tooltip title={user.firstName} placement="left">
-                      <Avatar alt={user.firstName} src={user.image} />
-                    </Tooltip>
-                    {user.name?.split(` `)[0]}
-                  </Box>
+                  <b>First Name</b>
                 </TableCell>
-                <TableCell align="left">{user.name?.split(` `)[1]}</TableCell>
-                <TableCell align="left">{user.age}</TableCell>
+                <TableCell align="left">
+                  <b>Last Name</b>
+                </TableCell>
+                <TableCell align="left">
+                  <b>Age</b>
+                </TableCell>
                 <TableCell align="center">
-                  <Tooltip title="View">
-                    <IconButton onClick={onClickView.bind(null, user)}>
-                      <VisibilityIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Edit">
-                    <IconButton onClick={onClickEdit.bind(null, user)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <IconButton onClick={() => onClickDelete(user)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Hello">
-                    <IconButton onClick={() => onClickHello(user)}>
-                      <InfoIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <b>Actions</b>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {userList.map((user: IUsers, index) => (
+                <TableRow
+                  key={user.id}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    ":nth-child(odd)": {
+                      backgroundColor: "rgba(245, 245, 245, 0.27)",
+                    },
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell align="left">
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      gap="1rem"
+                      alignItems="center"
+                    >
+                      <Tooltip title={user.name} placement="left">
+                        <Avatar alt={user.name} src={user.image} />
+                      </Tooltip>
+                      {user.name?.split(" ")[0]}
+                    </Box>
+                  </TableCell>
+                  <TableCell align="left">{user.name?.split(" ")[1]}</TableCell>
+                  <TableCell align="left">{user.age}</TableCell>
+                  <TableCell align="center">
+                    <Tooltip title="View">
+                      <IconButton onClick={onClickView.bind(null, user)}>
+                        <VisibilityIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Edit">
+                      <IconButton onClick={onClickEdit.bind(null, user)}>
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <IconButton onClick={() => onClickDelete(user)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Hello">
+                      <IconButton onClick={() => onClickHello(user)}>
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </>
   );
 };

@@ -14,42 +14,70 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 type IModalUserProps = {
   onOpen: boolean;
   onClose: () => void;
-  action: "view" | "edit" | "delete";
-  user: IUsers | undefined;
+  action: "create" | "view" | "edit" | "delete";
+  user?: IUsers;
+  onCreateUser: (user: IUsers) => void;
   onUpdateUser: (user: IUsers) => void;
+  onDeleteUser: (user: IUsers) => void;
 };
 
 export const ModalUser = (props: IModalUserProps) => {
-  const { onOpen, onClose, action, user, onUpdateUser } = props;
+  const {
+    onOpen,
+    onClose,
+    action,
+    user,
+    onCreateUser,
+    onUpdateUser,
+    onDeleteUser,
+  } = props;
 
   const [image, setImage] = useState(user?.image);
   const [firstName, setFirstName] = useState(user?.firstName);
-  const [lastName, setLastName] = useState(user?.lastName);
+  const [name, setName] = useState(user?.name);
   const [age, setAge] = useState(user?.age);
+
+  const onCreate = useCallback(() => {
+    const createUser: IUsers = {
+      id: Date.now(),
+      image,
+      name,
+      age,
+    };
+
+    onCreateUser(createUser);
+    onClose();
+  }, [name, age]);
 
   const onSubmit = useCallback(() => {
     const updatedUser = {
-      id: user?.id,
-      image: image,
-      firstName: firstName,
-      lastName: lastName,
-      age: age,
+      ...user,
+      image,
+      name,
+      age,
     };
 
     onUpdateUser(updatedUser);
     onClose();
-  }, [firstName, lastName, age]);
+  }, [name, age]);
 
-  const onChangeFirstName = useCallback(
+  const onDelete = useCallback(() => {
+    const deleteUser = {
+      ...user,
+      image,
+      name,
+      age,
+    };
+    onDeleteUser(deleteUser);
+    onClose();
+  }, [name, age]);
+
+  const onChangeName = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setFirstName(e.target.value),
-    [firstName]
+      setName(e.target.value),
+    [name]
   );
-  const onChangeLastName = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setLastName(e.target.value),
-    [lastName]
-  );
+
   const onChangeAge = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setAge(e.target.value),
@@ -62,8 +90,7 @@ export const ModalUser = (props: IModalUserProps) => {
 
   useEffect(() => {
     setImage(user?.image);
-    setFirstName(user?.firstName);
-    setLastName(user?.lastName);
+    setName(user?.name);
     setAge(user?.age);
   }, [user, onOpen]);
 
@@ -98,19 +125,8 @@ export const ModalUser = (props: IModalUserProps) => {
                 id="standard-basic"
                 label="First name."
                 variant="outlined"
-                value={firstName}
-                onChange={onChangeFirstName}
-                disabled={isDisable}
-              />
-            </Typography>
-            <Typography gutterBottom variant="h6" component="div">
-              <TextField
-                sx={{ width: "100%" }}
-                id="standard-basic"
-                label="Last name."
-                variant="outlined"
-                value={lastName}
-                onChange={onChangeLastName}
+                value={name}
+                onChange={onChangeName}
                 disabled={isDisable}
               />
             </Typography>
@@ -130,13 +146,23 @@ export const ModalUser = (props: IModalUserProps) => {
             <Button variant="text" onClick={onClose}>
               Cancle
             </Button>
+            {action === "create" && (
+              <Button
+                variant="contained"
+                type="submit"
+                color="success"
+                onClick={onCreate}
+              >
+                Create
+              </Button>
+            )}
             {action === "edit" && (
               <Button variant="contained" type="submit" onClick={onSubmit}>
                 Submit
               </Button>
             )}
             {action === "delete" && (
-              <Button variant="contained" color="error" onClick={onClose}>
+              <Button variant="contained" color="error" onClick={onDelete}>
                 Delete
               </Button>
             )}
